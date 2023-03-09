@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("student")
@@ -27,6 +28,13 @@ public class StudentController {
     @GetMapping// GET http://localhost:8080/student
     public ResponseEntity<Collection<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
+    }
+    @GetMapping("/age")
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@PathVariable int studentAge) {
+        return ResponseEntity.ok(studentService.getAllStudents()
+                .stream()
+                .filter(student -> student.getStudentAge() == studentAge)
+                .collect(Collectors.toList()));
     }
 
     @PostMapping // POST http://localhost:8080/student
