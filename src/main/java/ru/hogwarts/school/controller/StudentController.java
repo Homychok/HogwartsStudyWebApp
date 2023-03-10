@@ -25,12 +25,12 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
-    @GetMapping// GET http://localhost:8080/student
-    public ResponseEntity<Collection<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.getAllStudents());
-    }
+//    @GetMapping// GET http://localhost:8080/student
+//    public ResponseEntity<Collection<Student>> getAllStudents() {
+//        return ResponseEntity.ok(studentService.getAllStudents());
+//    }
     @GetMapping("/age")
-    public ResponseEntity<Collection<Student>> getStudentsByAge(@PathVariable int studentAge) {
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
         return ResponseEntity.ok(studentService.getAllStudents()
                 .stream()
                 .filter(student -> student.getStudentAge() == studentAge)
@@ -50,7 +50,7 @@ public class StudentController {
         return ResponseEntity.ok(updatedStudent);
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/student/3
-    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+    public ResponseEntity deleteStudent(@RequestParam Long studentId) {
         Student deletedStudent = studentService.deleteStudent(studentId);
         if (deletedStudent == null) {
 //            return ResponseEntity.notFound().build();

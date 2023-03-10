@@ -26,12 +26,12 @@ public class HouseController {
         }
         return ResponseEntity.ok(faculty);
     }
-    @GetMapping// GET http://localhost:8080/faculty
-    public ResponseEntity<Collection<Faculty>> getAllFacultys() {
-        return ResponseEntity.ok(houseService.getAllFacultys());
-    }
+//    @GetMapping// GET http://localhost:8080/faculty
+//    public ResponseEntity<Collection<Faculty>> getAllFacultys() {
+//        return ResponseEntity.ok(houseService.getAllFacultys());
+//    }
     @GetMapping("/color")
-    public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@PathVariable String facultyColor) {
+    public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam String facultyColor) {
         return ResponseEntity.ok(houseService.getAllFacultys()
                 .stream()
                 .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
@@ -51,7 +51,7 @@ public class HouseController {
         return ResponseEntity.ok(updatedFaculty);
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/faculty/3
-    public ResponseEntity deleteFaculty(@PathVariable Long facultyId) {
+    public ResponseEntity deleteFaculty(@RequestParam Long facultyId) {
         Faculty deletedFaculty = houseService.deleteFaculty(facultyId);
         if (deletedFaculty == null) {
 //            return ResponseEntity.notFound().build();
