@@ -51,7 +51,7 @@ public class HouseController {
         return ResponseEntity.ok(updatedFaculty);
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/faculty/3
-    public ResponseEntity deleteFaculty(@RequestParam Long facultyId) {
+    public ResponseEntity deleteFaculty(@PathVariable Long facultyId) {
         Faculty deletedFaculty = houseService.deleteFaculty(facultyId);
         if (deletedFaculty == null) {
 //            return ResponseEntity.notFound().build();
