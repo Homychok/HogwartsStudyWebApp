@@ -52,11 +52,13 @@ public class HouseController {
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/faculty/3
     public ResponseEntity deleteFaculty(@PathVariable Long facultyId) {
-        Faculty deletedFaculty = houseService.deleteFaculty(facultyId);
-        if (deletedFaculty == null) {
+        houseService.deleteFaculty(facultyId);
+/*        if (deletedFaculty == null) {
 //            return ResponseEntity.notFound().build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(deletedFaculty);
+
+ */
+        return ResponseEntity.ok().build();
     }
 }

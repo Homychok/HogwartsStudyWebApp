@@ -25,10 +25,11 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
-//    @GetMapping// GET http://localhost:8080/student
-//    public ResponseEntity<Collection<Student>> getAllStudents() {
-//        return ResponseEntity.ok(studentService.getAllStudents());
-//    }
+/*    @GetMapping// GET http://localhost:8080/student
+    public ResponseEntity<Collection<Student>> getAllStudents() {
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+ */
     @GetMapping("/age")
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
         return ResponseEntity.ok(studentService.getAllStudents()
@@ -51,11 +52,13 @@ public class StudentController {
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/student/3
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
-        Student deletedStudent = studentService.deleteStudent(studentId);
-        if (deletedStudent == null) {
+        studentService.deleteStudent(studentId);
+/*        if (deletedStudent == null) {
 //            return ResponseEntity.notFound().build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(deletedStudent);
+
+ */
+        return ResponseEntity.ok().build();
     }
 }
