@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("student")
@@ -29,12 +32,16 @@ public class StudentController {
 //    public ResponseEntity<Collection<Student>> getAllStudents() {
 //        return ResponseEntity.ok(studentService.getAllStudents());
 //    }
+
+    private List<Student> students = new ArrayList<>();
     @GetMapping("/age")
-    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
-        return ResponseEntity.ok(studentService.getAllStudents()
-                .stream()
-                .filter(student -> student.getStudentAge() == studentAge)
-                .collect(Collectors.toList()));
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam(required=false) Long studentAge) {
+        Stream<Student> studentStream = students.stream();
+        if (studentAge != null) {
+            studentStream = studentStream.filter(student -> student.getStudentId().equals(studentAge));
+            return (ResponseEntity<Collection<Student>>) studentStream.collect(Collectors.toList());
+        }
+            return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @PostMapping // POST http://localhost:8080/student

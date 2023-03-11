@@ -1,13 +1,18 @@
 package ru.hogwarts.school.controller;
 
+import org.hibernate.query.criteria.internal.predicate.IsEmptyPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.HouseService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("faculty")
@@ -30,12 +35,19 @@ public class HouseController {
 //    public ResponseEntity<Collection<Faculty>> getAllFacultys() {
 //        return ResponseEntity.ok(houseService.getAllFacultys());
 //    }
+private List<Faculty> faculties = new ArrayList<>();
     @GetMapping("/color")
-    public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam String facultyColor) {
-        return ResponseEntity.ok(houseService.getAllFacultys()
-                .stream()
-                .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
-                .collect(Collectors.toList()));
+    public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam(required=false) String facultyColor) {
+        Stream<Faculty> facultyStream = faculties.stream();
+        if (facultyColor == null) {
+            facultyStream = facultyStream.filter(student -> student.getFacultyName().equals(facultyColor));
+            return (ResponseEntity<Collection<Faculty>>) facultyStream.collect(Collectors.toList());
+        }
+        return ResponseEntity.ok(houseService.getAllFacultys());
+//        return ResponseEntity.ok(houseService.getAllFacultys()
+//                .stream()
+//                .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
+//                .collect(Collectors.toList()));
     }
 
     @PostMapping // POST http://localhost:8080/faculty
