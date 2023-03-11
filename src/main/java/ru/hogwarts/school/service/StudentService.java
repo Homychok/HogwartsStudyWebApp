@@ -6,6 +6,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -51,7 +52,8 @@ public class StudentService {
  */
         studentRepository.deleteById(studentId);
     }
-    public Collection<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public Collection<Student> getAllStudents(int studentAge) {
+        return studentRepository.findAll().stream().filter(student -> student.getStudentAge() == studentAge
+        ).collect(Collectors.toList());
     }
 }

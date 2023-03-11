@@ -20,7 +20,7 @@ public class StudentController {
     @GetMapping("{id}") // GET http://localhost:8080/student/3
     public ResponseEntity<Student> getStudentInfo (@PathVariable Long studentId) {
        Student student = studentService.findStudent(studentId);
-        if (student == null) {
+        if (studentId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(student);
@@ -32,10 +32,10 @@ public class StudentController {
  */
     @GetMapping("/age")
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
-        return ResponseEntity.ok(studentService.getAllStudents()
-                .stream()
-                .filter(student -> student.getStudentAge() == studentAge)
-                .collect(Collectors.toList()));
+        return ResponseEntity.ok(studentService.getAllStudents(studentAge));
+//                .stream()
+//                .filter(student -> student.getStudentAge() == studentAge)
+//                .collect(Collectors.toList()));
     }
 
     @PostMapping // POST http://localhost:8080/student

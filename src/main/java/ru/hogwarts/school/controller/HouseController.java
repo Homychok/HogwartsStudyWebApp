@@ -32,10 +32,10 @@ public class HouseController {
 //    }
     @GetMapping("/color")
     public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam String facultyColor) {
-        return ResponseEntity.ok(houseService.getAllFacultys()
-                .stream()
-                .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
-                .collect(Collectors.toList()));
+        return ResponseEntity.ok(houseService.getAllFacultys(facultyColor));
+//                .stream()
+//                .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
+//                .collect(Collectors.toList()));
     }
 
     @PostMapping // POST http://localhost:8080/faculty

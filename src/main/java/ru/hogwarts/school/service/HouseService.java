@@ -6,6 +6,7 @@ import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -54,7 +55,8 @@ private final FacultyRepository facultyRepository;
  */
         facultyRepository.deleteById(facultyId);
     }
-    public Collection<Faculty> getAllFacultys() {
-        return facultyRepository.findAll();
+    public Collection<Faculty> getAllFacultys(String facultyColor) {
+        return facultyRepository.findAll().stream().filter(faculty ->
+                faculty.getFacultyColor() == facultyColor).collect(Collectors.toList());
     }
 }
