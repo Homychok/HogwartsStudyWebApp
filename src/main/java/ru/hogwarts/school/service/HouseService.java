@@ -60,6 +60,6 @@ private final FacultyRepository facultyRepository;
                 faculty.getFacultyColor() == facultyColor).collect(Collectors.toList());
     }
     public Collection<Faculty> getAllFacultiesByColor(String facultyColor) {
-        return facultyRepository.findByColor(facultyColor);
+        return facultyRepository.findByFacultyColor(facultyColor);
     }
 }

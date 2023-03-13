@@ -56,6 +56,6 @@ public class StudentService {
         ).collect(Collectors.toList());
     }
     public Collection<Student> getAllStudentsByAge(int studentAge) {
-        return studentRepository.findByAge(studentAge);
+        return studentRepository.findByStudentAge(studentAge);
     }
 }
