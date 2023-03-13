@@ -97,13 +97,13 @@ private FacultyRepository facultyRepository;
                 .collect(Collectors.toList());
     }
     public Collection<FacultyDTO> getFacultyByColor(String facultyColor){
-        return facultyRepository.findByColor(facultyColor)
+        return facultyRepository.findByFacultyColor(facultyColor)
                 .stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList()); }
 
     public Collection<FacultyDTO> getFacultyByName (String facultyName) {
-        return facultyRepository.findByName(facultyName).stream()
+        return facultyRepository.findByFacultyName(facultyName).stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList());
     }

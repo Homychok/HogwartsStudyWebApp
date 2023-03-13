@@ -101,14 +101,14 @@ public StudentService(StudentRepository studentRepository, FacultyRepository fac
     }
 
     public Collection<StudentDTO> getStudentsByAge(int studentAge) {
-        return studentRepository.findByAge(studentAge)
+        return studentRepository.findByStudentAge(studentAge)
                 .stream()
                 .map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
     }
 
     public Collection<StudentDTO> getStudentsByAgeBetween(int studentAgeMin, int studentAgeMax) {
-        return studentRepository.findByAgeBetween(studentAgeMin, studentAgeMax)
+        return studentRepository.findByStudentAgeBetween(studentAgeMin, studentAgeMax)
                 .stream()
                 .map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
