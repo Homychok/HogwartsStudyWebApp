@@ -36,7 +36,7 @@ public class HouseController {
 //        return ResponseEntity.ok(houseService.getAllFacultys());
 //    }
 private List<Faculty> faculties = new ArrayList<>();
-    @GetMapping("/color")
+    @GetMapping
     public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam(required=false) String facultyColor) {
         Stream<Faculty> facultyStream = faculties.stream();
         if (facultyColor == null) {

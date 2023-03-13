@@ -34,7 +34,7 @@ public class StudentController {
 //    }
 
     private List<Student> students = new ArrayList<>();
-    @GetMapping("/age")
+    @GetMapping
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam(required=false) Long studentAge) {
         Stream<Student> studentStream = students.stream();
         if (studentAge != null) {
