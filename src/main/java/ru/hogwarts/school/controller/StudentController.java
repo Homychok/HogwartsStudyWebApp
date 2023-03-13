@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("student")
@@ -24,9 +25,17 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
-    @GetMapping// GET http://localhost:8080/student
+/*    @GetMapping// GET http://localhost:8080/student
     public ResponseEntity<Collection<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
+    }
+ */
+    @GetMapping
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
+        return ResponseEntity.ok(studentService.getAllStudentsByAge(studentAge));
+//                .stream()
+//                .filter(student -> student.getStudentAge() == studentAge)
+//                .collect(Collectors.toList()));
     }
 
     @PostMapping // POST http://localhost:8080/student
@@ -35,7 +44,7 @@ public class StudentController {
     }
     @PutMapping  // PUT http://localhost:8080/student
     public ResponseEntity updateStudent(@RequestBody Student student) {
-        Student updatedStudent = studentService.editStudent(student);
+        Student updatedStudent = studentService.updateStudent(student);
         if (updatedStudent == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -43,11 +52,13 @@ public class StudentController {
     }
     @DeleteMapping("{id}") // DELETE http://localhost:8080/student/3
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
-        Student deletedStudent = studentService.deleteStudent(studentId);
-        if (deletedStudent == null) {
+        studentService.deleteStudent(studentId);
+/*        if (deletedStudent == null) {
 //            return ResponseEntity.notFound().build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(deletedStudent);
+
+ */
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,18 +1,24 @@
 package ru.hogwarts.school.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
-
+@Entity
 public class Student {
+    @Id
+    @GeneratedValue
     private Long studentId;
-    private String name;
-    private int age;
+    private String studentName;
+    private int studentAge;
 
     public Student() {
     }
-    public Student(Long studentId, String name, int age) {
+
+    public Student(Long studentId, String studentName, int studentAge) {
         this.studentId = studentId;
-        this.name = name;
-        this.age = age;
+        this.studentName = studentName;
+        this.studentAge = studentAge;
     }
 
     public Long getStudentId() {
@@ -23,20 +29,20 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public int getAge() {
-        return age;
+    public int getStudentAge() {
+        return studentAge;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setStudentAge(int studentAge) {
+        this.studentAge = studentAge;
     }
 
     @Override
@@ -44,20 +50,20 @@ public class Student {
         if (this == o) return true;
         if (!(o instanceof Student)) return false;
         Student student = (Student) o;
-        return getAge() == student.getAge() && Objects.equals(getStudentId(), student.getStudentId()) && Objects.equals(getName(), student.getName());
+        return getStudentAge() == student.getStudentAge() && Objects.equals(getStudentId(), student.getStudentId()) && Objects.equals(getStudentName(), student.getStudentName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getStudentId(), getName(), getAge());
+        return Objects.hash(getStudentId(), getStudentName(), getStudentAge());
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "id=" + studentId +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+                "studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
+                ", studentAge=" + studentAge +
                 '}';
     }
 }
