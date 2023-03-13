@@ -28,7 +28,7 @@ private final FacultyRepository facultyRepository;
  */
         return facultyRepository.save(faculty);
     }
-    public Faculty findFaculty (long facultyId) {
+    public Faculty findFaculty (Long facultyId) {
 /*        if (facultys.containsKey(facultyId)) {
             return facultys.get(facultyId);
         }
@@ -37,7 +37,7 @@ private final FacultyRepository facultyRepository;
  */
         return facultyRepository.findById(facultyId).get();
     }
-    public Faculty editFaculty(Faculty faculty) {
+    public Faculty updateFaculty(Faculty faculty) {
  /*       if (facultys.containsKey(faculty.getFacultyId())) {
             facultys.put(faculty.getFacultyId(), faculty);
             return faculty;
@@ -47,7 +47,7 @@ private final FacultyRepository facultyRepository;
   */
         return facultyRepository.save(faculty);
     }
-    public void deleteFaculty(long facultyId) {
+    public void deleteFaculty(Long facultyId) {
 /*        if (facultys.containsKey(facultyId)) {
             return facultys.remove(facultyId);
         }return null;
@@ -58,5 +58,8 @@ private final FacultyRepository facultyRepository;
     public Collection<Faculty> getAllFacultys(String facultyColor) {
         return facultyRepository.findAll().stream().filter(faculty ->
                 faculty.getFacultyColor() == facultyColor).collect(Collectors.toList());
+    }
+    public Collection<Faculty> getAllFacultiesByColor(String facultyColor) {
+        return facultyRepository.findByColor(facultyColor);
     }
 }

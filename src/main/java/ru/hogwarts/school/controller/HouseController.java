@@ -30,21 +30,20 @@ public class HouseController {
 //    public ResponseEntity<Collection<Faculty>> getAllFacultys() {
 //        return ResponseEntity.ok(houseService.getAllFacultys());
 //    }
-    @GetMapping("/color")
+    @GetMapping
     public ResponseEntity<Collection<Faculty>> getFacultiesByUniqColor(@RequestParam String facultyColor) {
-        return ResponseEntity.ok(houseService.getAllFacultys(facultyColor));
+        return ResponseEntity.ok(houseService.getAllFacultiesByColor(facultyColor));
 //                .stream()
 //                .filter(faculty -> faculty.getFacultyColor().equals(facultyColor))
 //                .collect(Collectors.toList()));
     }
-
     @PostMapping // POST http://localhost:8080/faculty
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return houseService.createFaculty(faculty);
     }
     @PutMapping  // PUT http://localhost:8080/faculty
     public ResponseEntity updateFaculty(@RequestBody Faculty faculty) {
-        Faculty updatedFaculty = houseService.editFaculty(faculty);
+        Faculty updatedFaculty = houseService.updateFaculty(faculty);
         if (updatedFaculty == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

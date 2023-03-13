@@ -20,7 +20,7 @@ public class StudentController {
     @GetMapping("{id}") // GET http://localhost:8080/student/3
     public ResponseEntity<Student> getStudentInfo (@PathVariable Long studentId) {
        Student student = studentService.findStudent(studentId);
-        if (studentId == null) {
+        if (student == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(student);
@@ -30,9 +30,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
  */
-    @GetMapping("/age")
+    @GetMapping
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam int studentAge) {
-        return ResponseEntity.ok(studentService.getAllStudents(studentAge));
+        return ResponseEntity.ok(studentService.getAllStudentsByAge(studentAge));
 //                .stream()
 //                .filter(student -> student.getStudentAge() == studentAge)
 //                .collect(Collectors.toList()));
@@ -44,7 +44,7 @@ public class StudentController {
     }
     @PutMapping  // PUT http://localhost:8080/student
     public ResponseEntity updateStudent(@RequestBody Student student) {
-        Student updatedStudent = studentService.editStudent(student);
+        Student updatedStudent = studentService.updateStudent(student);
         if (updatedStudent == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

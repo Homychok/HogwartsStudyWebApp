@@ -5,7 +5,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,7 @@ public class StudentService {
         */
         return studentRepository.findById(studentId).get();
     }
-    public Student editStudent(Student student) {
+    public Student updateStudent(Student student) {
 /*        if (students.containsKey(student.getStudentId())) {
             students.put(student.getStudentId(), student);
             return student;
@@ -55,5 +54,8 @@ public class StudentService {
     public Collection<Student> getAllStudents(int studentAge) {
         return studentRepository.findAll().stream().filter(student -> student.getStudentAge() == studentAge
         ).collect(Collectors.toList());
+    }
+    public Collection<Student> getAllStudentsByAge(int studentAge) {
+        return studentRepository.findByAge(studentAge);
     }
 }
