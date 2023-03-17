@@ -1,4 +1,4 @@
-package com.hogwarts.school.config;
+package ru.hogwarts.school.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
