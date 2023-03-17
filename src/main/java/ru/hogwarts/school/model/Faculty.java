@@ -1,15 +1,21 @@
-package com.hogwarts.school.model;
+package ru.hogwarts.school.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
-
+@Entity
 public class Faculty {
+    @Id
+    @GeneratedValue
     private Long facultyId;
     private String facultyName;
     private String facultyColor;
 
     public Faculty() {
     }
-
     public Faculty(Long facultyId, String facultyName, String facultyColor) {
         this.facultyId = facultyId;
         this.facultyName = facultyName;
@@ -57,8 +63,8 @@ public class Faculty {
     public String toString() {
         return "Faculty{" +
                 "facultyId=" + facultyId +
-                ", facultyName=" + facultyName + '\'' +
-                ", facultyColor=" + facultyColor + '\'' +
+                ", facultyName='" + facultyName + '\'' +
+                ", facultyColor='" + facultyColor + '\'' +
                 '}';
     }
 }
