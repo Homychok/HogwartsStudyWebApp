@@ -63,7 +63,7 @@ public class StudentController {
 // */
 //        return ResponseEntity.ok().build();
 //    }
-    @GetMapping("{id}")// GET http://localhost:8080/students/3
+    @GetMapping("{studentId}")// GET http://localhost:8080/students/3
     public ResponseEntity<StudentDTO> getStudent(@PathVariable Long studentId) {
         StudentDTO student = studentService.getStudentById(studentId);
         if (student == null) {
@@ -84,7 +84,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudents());
     }
 
-    @GetMapping("{id}/students") // GET http://localhost:8080/students/3/students
+    @GetMapping("{studentId}/students") // GET http://localhost:8080/students/3/students
     public ResponseEntity<FacultyDTO> getFacultyByStudentId(@PathVariable Long studentId) {
         return ResponseEntity.ok(studentService.getFacultyByStudentId(studentId));
     }
@@ -94,7 +94,7 @@ public class StudentController {
         return ResponseEntity.ok(createdStudent);
     }
 
-    @PatchMapping// PUT http://localhost:8080/students
+    @PutMapping// PUT http://localhost:8080/students
     public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) {
         StudentDTO updatedStudent = studentService.updateStudent(studentDTO);
         if (updatedStudent == null) {
@@ -103,7 +103,7 @@ public class StudentController {
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("{id}")// DELETE http://localhost:8080/students/3
+    @DeleteMapping("{studentId}")// DELETE http://localhost:8080/students/3
     public ResponseEntity<Student> deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();

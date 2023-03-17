@@ -1,7 +1,9 @@
 package ru.hogwarts.school.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.model.Faculty;
 
 
 @Data

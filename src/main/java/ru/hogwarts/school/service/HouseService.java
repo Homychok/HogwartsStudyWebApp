@@ -97,13 +97,13 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
     public Collection<FacultyDTO> getFacultyByColor(String facultyColor){
-        return facultyRepository.findByFacultyColor(facultyColor)
+        return facultyRepository.findByFacultyColorIgnoreCase(facultyColor)
                 .stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList()); }
 
     public Collection<FacultyDTO> getFacultyByName (String facultyName) {
-        return facultyRepository.findByFacultyName(facultyName).stream()
+        return facultyRepository.findByFacultyNameContainsIgnoreCase(facultyName).stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList());
     }

@@ -12,8 +12,11 @@ import java.util.Objects;
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "faculty_id")
     private Long facultyId;
+    @Column(name = "faculty_name")
     private String facultyName;
+    @Column(name = "faculty_color")
     private String facultyColor;
     @OneToMany(mappedBy = "faculty")
     private List<Student> students;

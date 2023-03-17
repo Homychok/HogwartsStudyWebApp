@@ -2,7 +2,9 @@ package ru.hogwarts.school.dto;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 
 @Data
 public class FacultyDTO {

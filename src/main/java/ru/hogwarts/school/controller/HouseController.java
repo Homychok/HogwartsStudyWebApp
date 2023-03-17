@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("facultys")
+@RequestMapping("faculty")
 public class HouseController {
     private final HouseService houseService;
 
@@ -63,7 +63,7 @@ public class HouseController {
 // */
 //        return ResponseEntity.ok().build();
 //    }
-    @GetMapping("{id}") // GET http://localhost:8080/facultys/3
+    @GetMapping("{facultyId}") // GET http://localhost:8080/facultys/3
     public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long facultyId) {
         FacultyDTO faculty = houseService.getFacultyById(facultyId);
         if (faculty == null) {
@@ -85,7 +85,7 @@ public class HouseController {
         return ResponseEntity.ok(houseService.getFaculties());
     }
 
-    @GetMapping("{id}/students") // GET http://localhost:8080/facultys/3/students
+    @GetMapping("{facultyId}/students") // GET http://localhost:8080/facultys/3/students
     public ResponseEntity<Collection<StudentDTO>> getStudentsByFacultyId (@PathVariable Long facultyId) {
         return ResponseEntity.ok(houseService.getStudentsByFacultyId(facultyId));
     }
@@ -104,7 +104,7 @@ public class HouseController {
         return ResponseEntity.ok(updatedFaculty);
     }
 
-    @DeleteMapping("{id}") // DELETE http://localhost:8080/facultys/3
+    @DeleteMapping("{facultyId}") // DELETE http://localhost:8080/facultys/3
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long facultyId) {
         houseService.deleteFaculty(facultyId);
         return ResponseEntity.ok().build();
