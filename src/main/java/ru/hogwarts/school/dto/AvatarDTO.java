@@ -3,6 +3,7 @@ package ru.hogwarts.school.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.hogwarts.school.model.Avatar;
+import ru.hogwarts.school.model.Student;
 
 @Data
 @NoArgsConstructor

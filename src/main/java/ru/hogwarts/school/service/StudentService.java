@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
@@ -93,8 +94,8 @@ public class StudentService {
         return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     }
 
-    public Collection<StudentDTO> getStudents() {
-        return studentRepository.findAll()
+    public Collection<StudentDTO> getStudents(Pageable pageable) {
+        return studentRepository.findAll(pageable).getContent()
                 .stream()
                 .map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
@@ -117,5 +118,19 @@ public class StudentService {
     public FacultyDTO getFacultyByStudentId(Long studentId) {
         Faculty faculty = facultyRepository.findById(getStudentById(studentId).getFacultyId()).get();
         return FacultyDTO.fromFaculty(faculty);
+    }
+    public Long getSumStudentAge() {
+        return studentRepository.getSumStudentAge();
+    }
+
+    public Long getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    public Collection<StudentDTO> getFiveYoungestStudents() {
+        return studentRepository.getFiveYoungestStudents()
+                .stream()
+                .map(StudentDTO::fromStudent)
+                .collect(Collectors.toList());
     }
 }
