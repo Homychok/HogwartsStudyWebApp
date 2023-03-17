@@ -1,4 +1,4 @@
-package com.hogwarts.school.model;
+package ru.hogwarts.school.model;
 
 import java.util.Objects;
 
@@ -57,8 +57,8 @@ public class Faculty {
     public String toString() {
         return "Faculty{" +
                 "facultyId=" + facultyId +
-                ", facultyName=" + facultyName + '\'' +
-                ", facultyColor=" + facultyColor + '\'' +
+                ", facultyName='" + facultyName + '\'' +
+                ", facultyColor='" + facultyColor + '\'' +
                 '}';
     }
 }
