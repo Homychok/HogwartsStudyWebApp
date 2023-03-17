@@ -6,7 +6,8 @@ import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class HouseService {
     private FacultyRepository facultyRepository;
-
+    public static final Logger logger = LoggerFactory.getLogger(HouseService.class);
     public HouseService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
@@ -66,8 +67,10 @@ public class HouseService {
 //    }
 
     public FacultyDTO createFaculty(FacultyDTO facultyDTO){
+        logger.info("Creating a new faculty");
         Faculty faculty = facultyDTO.toFaculty();
         Faculty createdFaculty = facultyRepository.save(faculty);
+        logger.info("New faculty has been created");
         return FacultyDTO.fromFaculty(createdFaculty);
     }
 
@@ -80,35 +83,46 @@ public class HouseService {
     }
 
     public FacultyDTO updateFaculty(FacultyDTO facultyDTO){
+        logger.info("Updating a faculty");
         Faculty faculty = facultyDTO.toFaculty();
-        return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
+        Faculty updatedFaculty = facultyRepository.save(faculty);
+        logger.info("Faculty has been updated");
+        return FacultyDTO.fromFaculty(updatedFaculty);
     }
 
-    public void deleteFaculty(Long facultyId){
+    public void deleteFaculty(Long facultyId) {
+        logger.info("Deleting faculty with id: " + facultyId);
         facultyRepository.deleteById(facultyId);
+        logger.info("Faculty with id: " + facultyId + " has been deleted");
     }
+
     public FacultyDTO getFacultyById(Long facultyId) {
+        logger.info("Getting faculty with id: " + facultyId);
         return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).get());
     }
     public Collection<FacultyDTO> getFaculties() {
+        logger.info("Getting all faculties");
         return facultyRepository.findAll()
                 .stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList());
     }
     public Collection<FacultyDTO> getFacultyByColor(String facultyColor){
+        logger.info("Getting all faculties by color: " + facultyColor);
         return facultyRepository.findByFacultyColorIgnoreCase(facultyColor)
                 .stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList()); }
 
     public Collection<FacultyDTO> getFacultyByName (String facultyName) {
+        logger.info("Getting faculty by name: " + facultyName);
         return facultyRepository.findByFacultyNameContainsIgnoreCase(facultyName).stream()
                 .map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList());
     }
 
     public Collection<StudentDTO> getStudentsByFacultyId(Long facultyId) {
+        logger.info("Getting all students by faculty with id: " + facultyId);
         List<Student> students = facultyRepository.findById(facultyId).get().getStudents();
         List<StudentDTO> studentsDTO = new ArrayList<>();
         for(Student student : students) {
