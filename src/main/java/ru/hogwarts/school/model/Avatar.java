@@ -19,4 +19,6 @@ public class Avatar {
     private byte[] data;
     @OneToOne
     private Student student;
+    @OneToOne
+    private Student studentId;
 }

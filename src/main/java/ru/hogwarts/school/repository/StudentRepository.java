@@ -13,9 +13,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT SUM(sum) AS count FROM student AS sum", nativeQuery = true)
     Long getSumStudentAge();
 
-    @Query(value = "SELECT AVG(sum.age) FROM student AS sum", nativeQuery = true)
+    @Query(value = "SELECT AVG(student_age) FROM student AS sum", nativeQuery = true)
     Long getAverageAge();
 
-    @Query(value = "SELECT * FROM student ORDER BY age ASC LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM student ORDER BY student_age ASC LIMIT 5", nativeQuery = true)
     Collection<Student> getFiveYoungestStudents();
 }

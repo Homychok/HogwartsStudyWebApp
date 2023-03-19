@@ -1,7 +1,10 @@
+-- liquibase formatted sql
+
+-- changeset Homychok:1
 CREATE TABLE student (
                          student_id  BIGINT PRIMARY KEY,
-                         age         INTEGER NOT NULL,
-                         name        VARCHAR(50) NOT NULL,
+                         student_age         INTEGER NOT NULL,
+                         student_name        VARCHAR(255) NOT NULL,
                          faculty_id  BIGINT REFERENCES faculty(faculty_id)
 );
 
