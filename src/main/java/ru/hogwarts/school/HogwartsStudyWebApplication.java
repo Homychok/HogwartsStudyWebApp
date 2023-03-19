@@ -7,8 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition
 public class HogwartsStudyWebApplication {
-
-    @Test
-    void contextLoads() {
+    public static void main(String[] args) {
+        SpringApplication.run(HogwartsStudyWebApplication.class, args);
     }
-}
+        @Test
+        void contextLoads () {
+        }
+    }
+
