@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
     @Data
     @NoArgsConstructor
     public class AppInfo {
-        private String appName;
+        private String appEnv;
         private String appVersion;
         private String appEnvironment;
 
-        public AppInfo(String appName, String appVersion, String appEnvironment) {
-            this.appName = appName;
+        public AppInfo(String appEnv, String appVersion, String appEnvironment) {
+            this.appEnv = appEnv;
             this.appVersion = appVersion;
             this.appEnvironment = appEnvironment;
         }
