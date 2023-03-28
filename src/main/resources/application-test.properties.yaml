@@ -1,0 +1,14 @@
+#spring.datasource.url=jdbc:postgresql://localhost/hogwarts2.0
+#spring.datasource.username=student
+#spring.datasource.password=chocolatefrog
+spring.jpa.hibernate.ddl-auto=validate
+
+
+spring.jpa.show-sql=true
+spring.liquibase.change-log=classpath:liquibase/changelog-master.yml
+#student.avatar.dir.path = avatar
+logging.level.root=info
+
+app.env = test
+app.version=test.version
+app.name=test.version
