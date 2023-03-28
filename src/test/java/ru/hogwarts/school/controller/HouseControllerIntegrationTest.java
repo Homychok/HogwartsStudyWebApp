@@ -23,6 +23,10 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -38,31 +42,35 @@ class HouseControllerIntegrationTest {
     private final JSONObject jsonObject = new JSONObject();
 
 
-
     @BeforeEach
     public void setUp() throws JSONException {
-        faculty.setFacultyName("Griffindor");
-        faculty.setFacultyColor("green");
+        faculty.setFacultyName("Звездочки");
+        faculty.setFacultyColor("золотой");
         facultyRepository.save(faculty);
 
-        jsonObject.put("name", "Slizzerin");
-        jsonObject.put("color", "yellow");
+        jsonObject.put("name", "Слизерин");
+        jsonObject.put("color", "зеленый");
 
         Student student1 = new Student();
-        student1.setStudentName("Victor");
-        student1.setStudentAge(44);
+        student1.setStudentName("Geil");
+        student1.setStudentAge(12);
         student1.setFaculty(faculty);
         studentRepository.save(student1);
         Student student2 = new Student();
-        student2.setStudentName("Konstantin");
-        student2.setStudentAge(55);
+        student2.setStudentName("Tom");
+        student2.setStudentAge(21);
         student2.setFaculty(faculty);
         studentRepository.save(student2);
 
+        List<Student> students = new ArrayList<>();
+        students.add(student1);
+        students.add(student2);
+        faculty.setStudents(students);
     }
 
+
     @Test
-    void createFaculty() throws Exception {
+    public void testCreateFaculty() throws Exception {
 
         mockMvc.perform(post("/faculty")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -70,42 +78,65 @@ class HouseControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Slizzerin"))
-                .andExpect(jsonPath("$.color").value("yellow"));
+                .andExpect(jsonPath("$.facultyName").value("Слизерин"))
+                .andExpect(jsonPath("$.facultyColor").value("зеленый"));
 
         mockMvc.perform(get("/faculty"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].name").value("Slizzerin"))
-                .andExpect(jsonPath("$[1].color").value("yellow"));
+                .andExpect(jsonPath("$[1].facultyName").value("Слизерин"))
+                .andExpect(jsonPath("$[1].facultyColor").value("зеленый"));
     }
 
-    @Test
-    void updateFaculty() throws Exception {
+//            @Test
+//            public void testUpdateFaculty() throws Exception {
+//
+//        jsonObject.put("name", "Пуффендуй");
+//        jsonObject.put("color", "желтый");
+//
+//        mockMvc.perform(patch("/faculty")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(jsonObject.toString()))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").isNotEmpty())
+//                .andExpect(jsonPath("$.id").isNumber())
+//                .andExpect(jsonPath("$.name").value("Пуффендуй"))
+//                .andExpect(jsonPath("$.color").value("желтый"));
+//
+//        mockMvc.perform(get("/faculty"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$").isArray())
+//                .andExpect(jsonPath("$.length()").value(2))
+//                .andExpect(jsonPath("$[1].name").value("Пуффендуй"))
+//                .andExpect(jsonPath("$[1].color").value("желтый"));
+//    }
 
-        jsonObject.put("name", "Managment");
-        jsonObject.put("color", "orange");
+    @Test
+    public void testUpdateFaculty() throws Exception {
+        jsonObject.put("name", "Слизерин");
+        jsonObject.put("color", "зеленый");
 
         mockMvc.perform(patch("/faculty")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Managment"))
-                .andExpect(jsonPath("$.color").value("orange"));
+                .andExpect(jsonPath("$.idF").isNotEmpty())
+                .andExpect(jsonPath("$.idF").isNumber())
+                .andExpect(jsonPath("$.facultyName").value("Слизерин"))
+                .andExpect(jsonPath("$.facultyColor").value("зеленый"));
 
         mockMvc.perform(get("/faculty"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].name").value("Managment"))
-                .andExpect(jsonPath("$[1].color").value("orange"));
+                .andExpect(jsonPath("$[1].facultyName").value("Слизерин"))
+                .andExpect(jsonPath("$[1].facultyColor").value("зеленый"));
     }
 
+
     @Test
-    void deleteFaculty() throws Exception {
+    public void testDeleteFaculty() throws Exception {
         studentRepository.deleteAll();
 
         mockMvc.perform(delete("/faculty/" + faculty.getFacultyId()))
@@ -118,24 +149,26 @@ class HouseControllerIntegrationTest {
     }
 
     @Test
-    void getFaculty() throws Exception {
+    public void testGetFaculty() throws Exception {
 
         mockMvc.perform(get("/faculty/" + faculty.getFacultyId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Griffindor"))
-                .andExpect(jsonPath("$.color").value("green"));
+                .andExpect(jsonPath("$.facultyName").value("Гриффиндор"))
+                .andExpect(jsonPath("$.facultyColor").value("красный"));
     }
 
-    /*@Test
-    void getFacultyWhenFacultyNotExist() throws Exception {
+    @Test
+    public void testGetFacultyWhenFacultyIsEmpty() throws Exception {
         studentRepository.deleteAll();
+        faculty.setStudents(Collections.emptyList());
         facultyRepository.delete(faculty);
-        mockMvc.perform(get("/faculty/" + faculty.getId()))
+
+        mockMvc.perform(get("/faculty/" + faculty.getFacultyId()))
                 .andExpect(status().isNotFound());
-    }*/
+    }
 
     @Test
-    void getFaculties() throws Exception {
+    public void testGetListFaculty() throws Exception {
 
         mockMvc.perform(get("/faculty"))
                 .andExpect(status().isOk())
@@ -143,11 +176,32 @@ class HouseControllerIntegrationTest {
     }
 
     @Test
-    void getAllStudentsByFacultyId() throws Exception {
+    public void testGetFacultiesByColor() throws Exception {
+        String color = "green";
+
+        mockMvc.perform(get("/faculty?definiteColor=" + color))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].facultyName").value(faculty.getFacultyName()))
+                .andExpect(jsonPath("$[0].facultyColor").value(faculty.getFacultyColor()));
+    }
+
+    @Test
+    public void testGetFacultiesByName() throws Exception {
+
+        mockMvc.perform(get("/faculty?name=" + faculty.getFacultyName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].facultyName").value(faculty.getFacultyName()))
+                .andExpect(jsonPath("$[0].facultyColor").value(faculty.getFacultyColor()));
+    }
+
+    @Test
+    public void getAllStudentsByFacultyId() throws Exception {
 
         mockMvc.perform(get("/faculty/" + faculty.getFacultyId() + "/students"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.length()").value(faculty.getStudents().size()));
     }
 }

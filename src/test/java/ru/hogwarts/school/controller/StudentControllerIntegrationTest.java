@@ -39,22 +39,22 @@ public class StudentControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() throws JSONException {
-        faculty.setFacultyName("Griffindor");
-        faculty.setFacultyColor("green");
+        faculty.setFacultyName("Гриффиндор");
+        faculty.setFacultyColor("красный");
         facultyRepository.save(faculty);
 
-        jsonObject.put("name", "Alfred");
-        jsonObject.put("age", 25);
+        jsonObject.put("name", "Гарри");
+        jsonObject.put("age", 12);
         jsonObject.put("facultyId", faculty.getFacultyId());
 
-        student.setStudentName("Victor");
-        student.setStudentAge(44);
+        student.setStudentName("Рон");
+        student.setStudentAge(13);
         student.setFaculty(faculty);
         studentRepository.save(student);
     }
 
     @Test
-    void testCreateStudentReturnsAddedStudent() throws Exception {
+    void testCreateStudent() throws Exception {
 
         mockMvc.perform(post("/student")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -62,24 +62,24 @@ public class StudentControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Alfred"))
-                .andExpect(jsonPath("$.age").value(25))
+                .andExpect(jsonPath("$.studentName").value("Рон"))
+                .andExpect(jsonPath("$.studentAge").value(13))
                 .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/student?pageNumber=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].name").value("Alfred"))
-                .andExpect(jsonPath("$[1].age").value(25))
+                .andExpect(jsonPath("$[1].studentName").value("Рон"))
+                .andExpect(jsonPath("$[1].studentAge").value(13))
                 .andExpect(jsonPath("$[1].facultyId").value(faculty.getFacultyId()));
     }
 
     @Test
-    void testUpdateStudentReturnsUpdatedStudent() throws Exception {
+    void testUpdateStudent() throws Exception {
 
-        jsonObject.put("name", "Cooper");
-        jsonObject.put("age", 37);
+        jsonObject.put("name", "Рон");
+        jsonObject.put("age", 15);
 
         mockMvc.perform(patch("/student")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,21 +87,21 @@ public class StudentControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Cooper"))
-                .andExpect(jsonPath("$.age").value(37))
+                .andExpect(jsonPath("$.studentName").value("Рон"))
+                .andExpect(jsonPath("$.studentAge").value(15))
                 .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/student?pageNumber=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].name").value("Cooper"))
-                .andExpect(jsonPath("$[1].age").value(37))
+                .andExpect(jsonPath("$[1].studentName").value("Рон"))
+                .andExpect(jsonPath("$[1].studentAge").value(15))
                 .andExpect(jsonPath("$[1].facultyId").value(faculty.getFacultyId()));
     }
 
     @Test
-    void testDeleteStudentRemovesStudentFromDatabase() throws Exception {
+    void testDeleteStudent() throws Exception {
 
         mockMvc.perform(delete("/student/" + student.getStudentId()))
                 .andExpect(status().isOk());
@@ -113,17 +113,17 @@ public class StudentControllerIntegrationTest {
     }
 
     @Test
-    void testGetStudentGetsStudentFromDatabase() throws Exception {
+    void testGetStudent() throws Exception {
 
         mockMvc.perform(get("/student/" + student.getStudentId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Victor"))
-                .andExpect(jsonPath("$.age").value(44))
+                .andExpect(jsonPath("$.studentName").value("Гарри"))
+                .andExpect(jsonPath("$.studentAge").value(12))
                 .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
     }
 
     @Test
-    void testGetStudentsGetsListOfStudentsFromDatabase() throws Exception { //надо ли проверять if'ы?
+    void testGetListOfStudents() throws Exception {
 
         mockMvc.perform(get("/student?pageNumber=1"))
                 .andExpect(status().isOk())
@@ -131,20 +131,13 @@ public class StudentControllerIntegrationTest {
     }
 
     @Test
-    void testGetFacultyByStudentIdReturnsFaculty() throws Exception {
+    void testGetFacultyByStudentId() throws Exception {
 
         mockMvc.perform(get("/student/" + student.getStudentId() + "/faculty"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Griffindor"))
-                .andExpect(jsonPath("$.color").value("green"))
+                .andExpect(jsonPath("$.name").value("Гриффиндор"))
+                .andExpect(jsonPath("$.color").value("красный"))
                 .andExpect(jsonPath("$.id").value(faculty.getFacultyId()));
     }
 
-//    @Test
-//    void testGetTotalStudentCountReturnsCount() throws Exception {
-//
-//        mockMvc.perform(get("/student/count"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$").value(1));
-//    }
 }
