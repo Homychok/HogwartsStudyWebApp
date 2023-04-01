@@ -2,7 +2,7 @@
 
 -- changeset Homychok:1
 CREATE TABLE faculty(
-                        id  BIGSERIAL PRIMARY KEY,
+                        faculty_id  BIGSERIAL PRIMARY KEY,
                         faculty_color       VARCHAR(255) NOT NULL,
                         faculty_name        VARCHAR(255) UNIQUE NOT NULL
 );

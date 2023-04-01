@@ -45,7 +45,7 @@ public class StudentControllerIntegrationTest {
 
         jsonObject.put("name", "Гарри");
         jsonObject.put("age", 12);
-        jsonObject.put("facultyId", faculty.getFacultyId());
+        jsonObject.put("facultyId", faculty.getId());
 
         student.setStudentName("Рон");
         student.setStudentAge(13);
@@ -64,7 +64,7 @@ public class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.studentName").value("Рон"))
                 .andExpect(jsonPath("$.studentAge").value(13))
-                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$.facultyId").value(faculty.getId()));
 
         mockMvc.perform(get("/student?pageNumber=1"))
                 .andExpect(status().isOk())
@@ -72,7 +72,7 @@ public class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[1].studentName").value("Рон"))
                 .andExpect(jsonPath("$[1].studentAge").value(13))
-                .andExpect(jsonPath("$[1].facultyId").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$[1].facultyId").value(faculty.getId()));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.studentName").value("Рон"))
                 .andExpect(jsonPath("$.studentAge").value(15))
-                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$.facultyId").value(faculty.getId()));
 
         mockMvc.perform(get("/student?pageNumber=1"))
                 .andExpect(status().isOk())
@@ -97,13 +97,13 @@ public class StudentControllerIntegrationTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[1].studentName").value("Рон"))
                 .andExpect(jsonPath("$[1].studentAge").value(15))
-                .andExpect(jsonPath("$[1].facultyId").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$[1].facultyId").value(faculty.getId()));
     }
 
     @Test
     void testDeleteStudent() throws Exception {
 
-        mockMvc.perform(delete("/student/" + student.getStudentId()))
+        mockMvc.perform(delete("/student/" + student.getId()))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/student?pageNumber=1"))
@@ -115,11 +115,11 @@ public class StudentControllerIntegrationTest {
     @Test
     void testGetStudent() throws Exception {
 
-        mockMvc.perform(get("/student/" + student.getStudentId()))
+        mockMvc.perform(get("/student/" + student.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.studentName").value("Гарри"))
                 .andExpect(jsonPath("$.studentAge").value(12))
-                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$.facultyId").value(faculty.getId()));
     }
 
     @Test
@@ -133,11 +133,11 @@ public class StudentControllerIntegrationTest {
     @Test
     void testGetFacultyByStudentId() throws Exception {
 
-        mockMvc.perform(get("/student/" + student.getStudentId() + "/faculty"))
+        mockMvc.perform(get("/student/" + student.getId() + "/faculty"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Гриффиндор"))
-                .andExpect(jsonPath("$.color").value("красный"))
-                .andExpect(jsonPath("$.id").value(faculty.getFacultyId()));
+                .andExpect(jsonPath("$.facultyName").value("Гриффиндор"))
+                .andExpect(jsonPath("$.facultyColor").value("красный"))
+                .andExpect(jsonPath("$.id").value(faculty.getId()));
     }
 
 }

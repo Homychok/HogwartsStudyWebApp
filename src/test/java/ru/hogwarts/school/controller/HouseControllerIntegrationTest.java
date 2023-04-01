@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -88,30 +89,6 @@ class HouseControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].facultyName").value("Слизерин"))
                 .andExpect(jsonPath("$[1].facultyColor").value("зеленый"));
     }
-
-//            @Test
-//            public void testUpdateFaculty() throws Exception {
-//
-//        jsonObject.put("name", "Пуффендуй");
-//        jsonObject.put("color", "желтый");
-//
-//        mockMvc.perform(patch("/faculty")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonObject.toString()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").isNotEmpty())
-//                .andExpect(jsonPath("$.id").isNumber())
-//                .andExpect(jsonPath("$.name").value("Пуффендуй"))
-//                .andExpect(jsonPath("$.color").value("желтый"));
-//
-//        mockMvc.perform(get("/faculty"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$").isArray())
-//                .andExpect(jsonPath("$.length()").value(2))
-//                .andExpect(jsonPath("$[1].name").value("Пуффендуй"))
-//                .andExpect(jsonPath("$[1].color").value("желтый"));
-//    }
-
     @Test
     public void testUpdateFaculty() throws Exception {
         jsonObject.put("name", "Слизерин");
@@ -133,13 +110,11 @@ class HouseControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].facultyName").value("Слизерин"))
                 .andExpect(jsonPath("$[1].facultyColor").value("зеленый"));
     }
-
-
     @Test
     public void testDeleteFaculty() throws Exception {
         studentRepository.deleteAll();
 
-        mockMvc.perform(delete("/faculty/" + faculty.getFacultyId()))
+        mockMvc.perform(delete("/faculty/" + faculty.getId()))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/faculty"))
@@ -151,7 +126,7 @@ class HouseControllerIntegrationTest {
     @Test
     public void testGetFaculty() throws Exception {
 
-        mockMvc.perform(get("/faculty/" + faculty.getFacultyId()))
+        mockMvc.perform(get("/faculty/" + faculty.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.facultyName").value("Гриффиндор"))
                 .andExpect(jsonPath("$.facultyColor").value("красный"));
@@ -163,7 +138,7 @@ class HouseControllerIntegrationTest {
         faculty.setStudents(Collections.emptyList());
         facultyRepository.delete(faculty);
 
-        mockMvc.perform(get("/faculty/" + faculty.getFacultyId()))
+        mockMvc.perform(get("/faculty/" + faculty.getId()))
                 .andExpect(status().isNotFound());
     }
 
@@ -199,7 +174,7 @@ class HouseControllerIntegrationTest {
     @Test
     public void getAllStudentsByFacultyId() throws Exception {
 
-        mockMvc.perform(get("/faculty/" + faculty.getFacultyId() + "/students"))
+        mockMvc.perform(get("/faculty/" + faculty.getId() + "/students"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(faculty.getStudents().size()));

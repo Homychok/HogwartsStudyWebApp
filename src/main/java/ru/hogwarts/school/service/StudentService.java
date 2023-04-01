@@ -92,15 +92,15 @@ public class StudentService {
         return StudentDTO.fromStudent(updatedStudent);
     }
 
-    public void deleteStudent(Long studentId) {
-        logger.info("Deleting student with id: " + studentId);
-        studentRepository.deleteById(studentId);
-        logger.info("Student with id: " + studentId + " has been deleted");
+    public void deleteStudent(Long id) {
+        logger.info("Deleting student with id: " + id);
+        studentRepository.deleteById(id);
+        logger.info("Student with id: " + id + " has been deleted");
     }
 
-    public StudentDTO getStudentById(Long studentId) {
-        logger.info("Getting student with id: " + studentId);
-        return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
+    public StudentDTO getStudentById(Long id) {
+        logger.info("Getting student with id: " + id);
+        return StudentDTO.fromStudent(studentRepository.findById(id).get());
     }
 
     public Collection<StudentDTO> getStudents(Pageable pageable) {
@@ -127,9 +127,9 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public FacultyDTO getFacultyByStudentId(Long studentId) {
-        logger.info("Getting faculty by student id:" + studentId);
-        Faculty faculty = facultyRepository.findById(getStudentById(studentId).getFacultyId()).get();
+    public FacultyDTO getFacultyByStudentId(Long id) {
+        logger.info("Getting faculty by student id:" + id);
+        Faculty faculty = facultyRepository.findById(getStudentById(id).getFacultyId()).get();
         return FacultyDTO.fromFaculty(faculty);
     }
     public Long getSumStudentAge() {

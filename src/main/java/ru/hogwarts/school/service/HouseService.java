@@ -74,8 +74,8 @@ public class HouseService {
         return FacultyDTO.fromFaculty(createdFaculty);
     }
 
-    public FacultyDTO findFaculty(Long facultyId){
-        Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
+    public FacultyDTO findFaculty(Long id){
+        Faculty faculty = facultyRepository.findById(id).orElse(null);
         if (faculty != null){
             return FacultyDTO.fromFaculty(faculty);
         }
@@ -90,15 +90,15 @@ public class HouseService {
         return FacultyDTO.fromFaculty(updatedFaculty);
     }
 
-    public void deleteFaculty(Long facultyId) {
-        logger.info("Deleting faculty with id: " + facultyId);
-        facultyRepository.deleteById(facultyId);
-        logger.info("Faculty with id: " + facultyId + " has been deleted");
+    public void deleteFaculty(Long id) {
+        logger.info("Deleting faculty with id: " + id);
+        facultyRepository.deleteById(id);
+        logger.info("Faculty with id: " + id + " has been deleted");
     }
 
-    public FacultyDTO getFacultyById(Long facultyId) {
-        logger.info("Getting faculty with id: " + facultyId);
-        return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).get());
+    public FacultyDTO getFacultyById(Long id) {
+        logger.info("Getting faculty with id: " + id);
+        return FacultyDTO.fromFaculty(facultyRepository.findById(id).get());
     }
     public Collection<FacultyDTO> getFaculties() {
         logger.info("Getting all faculties");
@@ -121,9 +121,9 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
-    public Collection<StudentDTO> getStudentsByFacultyId(Long facultyId) {
-        logger.info("Getting all students by faculty with id: " + facultyId);
-        List<Student> students = facultyRepository.findById(facultyId).get().getStudents();
+    public Collection<StudentDTO> getStudentsByFacultyId(Long id) {
+        logger.info("Getting all students by faculty with id: " + id);
+        List<Student> students = facultyRepository.findById(id).get().getStudents();
         List<StudentDTO> studentsDTO = new ArrayList<>();
         for(Student student : students) {
             StudentDTO studentDTO = StudentDTO.fromStudent(student);

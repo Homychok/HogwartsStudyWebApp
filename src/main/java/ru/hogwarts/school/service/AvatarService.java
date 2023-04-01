@@ -29,10 +29,10 @@ public class AvatarService {
         this.avatarRepository = avatarRepository;
     }
 
-    public void updateAvatar(Long studentId, MultipartFile file) throws IOException {
-        Student student = studentService.getStudentById(studentId).toStudent();
-        logger.info("Uploading avatar for student with id: " + studentId);
-        Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
+    public void updateAvatar(Long id, MultipartFile file) throws IOException {
+        Student student = studentService.getStudentById(id).toStudent();
+        logger.info("Uploading avatar for student with id: " + id);
+        Path filePath = Path.of(avatarsDir, id + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -44,23 +44,23 @@ public class AvatarService {
             bufferedInputStream.transferTo(bufferedOutputStream);
         }
 
-        AvatarDTO avatarDTO = AvatarDTO.fromAvatar(getAvatar(studentId));
+        AvatarDTO avatarDTO = AvatarDTO.fromAvatar(getAvatar(id));
 
         avatarDTO.setFilePath(filePath.toString());
         avatarDTO.setFileSize(file.getSize());
         avatarDTO.setMediaType(file.getContentType());
         avatarDTO.setData(file.getBytes());
-        avatarDTO.setStudentId(student.getStudentId());
+        avatarDTO.setStudentId(student.getId());
 
         Avatar avatar = avatarDTO.toAvatar();
         avatar.setStudent(student);
         avatarRepository.save(avatar);
-        logger.info("Avatar for student with id: " + studentId + " upload successfully");
+        logger.info("Avatar for student with id: " + id + " upload successfully");
     }
 
-    public Avatar getAvatar(Long studentId) {
-        logger.info("Getting avatar for student with id " + studentId);
-        return avatarRepository.findAvatarByStudentId(studentId).orElse(new Avatar());
+    public Avatar getAvatar(Long id) {
+        logger.info("Getting avatar for student with id " + id);
+        return avatarRepository.findAvatarByStudentId(id).orElse(new Avatar());
     }
 
     public String getExtension(String fileName) {

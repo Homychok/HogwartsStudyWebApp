@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Avatar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long avatarId;
+    private Long id;
     private String filePath;
     private long fileSize;
     private String mediaType;

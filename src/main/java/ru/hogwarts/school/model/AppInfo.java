@@ -6,14 +6,9 @@ import lombok.NoArgsConstructor;
     @Data
     @NoArgsConstructor
     public class AppInfo {
-        private String appEnv;
-        private String appVersion;
         private String appEnvironment;
 
-        public AppInfo(String appEnv, String appVersion, String appEnvironment) {
-            this.appEnv = appEnv;
-            this.appVersion = appVersion;
-            this.appEnvironment = appEnvironment;
-        }
+        public static final String APP_NAME =  "hogwarts-school";
+        public static final String APP_VERSION = "0.0.1";
     }
 

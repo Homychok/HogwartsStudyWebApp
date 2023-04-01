@@ -63,9 +63,9 @@ public class HouseController {
 // */
 //        return ResponseEntity.ok().build();
 //    }
-    @GetMapping("{facultyId}") // GET http://localhost:8080/facultys/3
-    public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long facultyId) {
-        FacultyDTO faculty = houseService.getFacultyById(facultyId);
+    @GetMapping("{id}") // GET http://localhost:8080/facultys/3
+    public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long id) {
+        FacultyDTO faculty = houseService.getFacultyById(id);
         if (faculty == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

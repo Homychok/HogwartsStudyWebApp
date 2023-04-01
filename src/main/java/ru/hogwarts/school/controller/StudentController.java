@@ -65,9 +65,9 @@ public class StudentController {
 // */
 //        return ResponseEntity.ok().build();
 //    }
-    @GetMapping("{studentId}")// GET http://localhost:8080/students/3
-    public ResponseEntity<StudentDTO> getStudent(@PathVariable Long studentId) {
-        StudentDTO student = studentService.getStudentById(studentId);
+    @GetMapping("{id}")// GET http://localhost:8080/students/3
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable Long id) {
+        StudentDTO student = studentService.getStudentById(id);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -87,9 +87,9 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudents(pageable));
     }
 
-    @GetMapping("{studentId}/students") // GET http://localhost:8080/students/3/students
-    public ResponseEntity<FacultyDTO> getFacultyByStudentId(@PathVariable Long studentId) {
-        return ResponseEntity.ok(studentService.getFacultyByStudentId(studentId));
+    @GetMapping("{id}/students") // GET http://localhost:8080/students/3/students
+    public ResponseEntity<FacultyDTO> getFacultyByStudentId(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getFacultyByStudentId(id));
     }
     @GetMapping("/sumAges")
     public ResponseEntity<Long> getSumStudentAge() {
@@ -120,9 +120,9 @@ public class StudentController {
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("{studentId}")// DELETE http://localhost:8080/students/3
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long studentId) {
-        studentService.deleteStudent(studentId);
+    @DeleteMapping("{id}")// DELETE http://localhost:8080/students/3
+    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
