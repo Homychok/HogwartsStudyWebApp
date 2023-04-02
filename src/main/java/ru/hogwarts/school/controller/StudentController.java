@@ -87,7 +87,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudents(pageable));
     }
 
-    @GetMapping("{id}/students") // GET http://localhost:8080/students/3/students
+    @GetMapping("{id}/faculty") // GET http://localhost:8080/students/3/students
     public ResponseEntity<FacultyDTO> getFacultyByStudentId(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.getFacultyByStudentId(id));
     }

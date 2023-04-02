@@ -85,9 +85,9 @@ public class HouseController {
         return ResponseEntity.ok(houseService.getFaculties());
     }
 
-    @GetMapping("{facultyId}/students") // GET http://localhost:8080/facultys/3/students
-    public ResponseEntity<Collection<StudentDTO>> getStudentsByFacultyId (@PathVariable Long facultyId) {
-        return ResponseEntity.ok(houseService.getStudentsByFacultyId(facultyId));
+    @GetMapping("{id}/students") // GET http://localhost:8080/facultys/3/students
+    public ResponseEntity<Collection<StudentDTO>> getStudentsByFacultyId (@PathVariable Long id) {
+        return ResponseEntity.ok(houseService.getStudentsByFacultyId(id));
     }
     @PostMapping// POST http://localhost:8080/facultys
     public ResponseEntity<FacultyDTO> createFaculty(@RequestBody FacultyDTO facultyDTO) {
@@ -104,9 +104,9 @@ public class HouseController {
         return ResponseEntity.ok(updatedFaculty);
     }
 
-    @DeleteMapping("{facultyId}") // DELETE http://localhost:8080/facultys/3
-    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long facultyId) {
-        houseService.deleteFaculty(facultyId);
+    @DeleteMapping("{id}") // DELETE http://localhost:8080/facultys/3
+    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
+        houseService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 }

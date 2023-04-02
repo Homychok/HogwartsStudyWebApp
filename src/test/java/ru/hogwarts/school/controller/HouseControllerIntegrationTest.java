@@ -9,12 +9,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,6 +21,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
+import ru.hogwarts.school.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,23 +33,31 @@ import java.util.List;
 class HouseControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
+
     @Autowired
     private FacultyRepository facultyRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    StudentService studentService;
+    @Autowired
+    StudentController studentController;
 
-    private final Faculty faculty = new Faculty();
+    private Faculty faculty = new Faculty();
+    private Student student = new Student();
+
     private final JSONObject jsonObject = new JSONObject();
 
 
     @BeforeEach
     public void setUp() throws JSONException {
+
         faculty.setFacultyName("Звездочки");
         faculty.setFacultyColor("золотой");
         facultyRepository.save(faculty);
 
-        jsonObject.put("name", "Слизерин");
-        jsonObject.put("color", "зеленый");
+        jsonObject.put("facultyName", "Слизерин");
+        jsonObject.put("facultyColor", "зеленый");
 
         Student student1 = new Student();
         student1.setStudentName("Geil");
@@ -91,15 +98,15 @@ class HouseControllerIntegrationTest {
     }
     @Test
     public void testUpdateFaculty() throws Exception {
-        jsonObject.put("name", "Слизерин");
-        jsonObject.put("color", "зеленый");
+        jsonObject.put("facultyName", "Слизерин");
+        jsonObject.put("facultyColor", "зеленый");
 
-        mockMvc.perform(patch("/faculty")
+        mockMvc.perform(post("/faculty")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idF").isNotEmpty())
-                .andExpect(jsonPath("$.idF").isNumber())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.facultyName").value("Слизерин"))
                 .andExpect(jsonPath("$.facultyColor").value("зеленый"));
 
@@ -128,8 +135,8 @@ class HouseControllerIntegrationTest {
 
         mockMvc.perform(get("/faculty/" + faculty.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.facultyName").value("Гриффиндор"))
-                .andExpect(jsonPath("$.facultyColor").value("красный"));
+                .andExpect(jsonPath("$.facultyName").value("Звездочки"))
+                .andExpect(jsonPath("$.facultyColor").value("золотой"));
     }
 
     @Test
@@ -138,8 +145,9 @@ class HouseControllerIntegrationTest {
         faculty.setStudents(Collections.emptyList());
         facultyRepository.delete(faculty);
 
-        mockMvc.perform(get("/faculty/" + faculty.getId()))
+        mockMvc.perform(get("/faculty/get/" + faculty.getId()))
                 .andExpect(status().isNotFound());
+
     }
 
     @Test
@@ -152,9 +160,9 @@ class HouseControllerIntegrationTest {
 
     @Test
     public void testGetFacultiesByColor() throws Exception {
-        String color = "green";
+        String facultyColor = "green";
 
-        mockMvc.perform(get("/faculty?definiteColor=" + color))
+        mockMvc.perform(get("/faculty?definiteColor=" + facultyColor))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].facultyName").value(faculty.getFacultyName()))
