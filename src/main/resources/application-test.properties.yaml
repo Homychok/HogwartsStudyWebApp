@@ -10,4 +10,4 @@ spring.liquibase.change-log=classpath:liquibase/changelog-master.yml
 
 logging.level.root=info
 
-app.env = dev
+app.env = test
