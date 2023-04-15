@@ -1,6 +1,7 @@
 package ru.hogwarts.school.controller;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Testcontainers
 public class StudentControllerIntegrationTest extends TestConfiguration {
     @Autowired
@@ -64,6 +65,12 @@ public class StudentControllerIntegrationTest extends TestConfiguration {
         student.setFaculty(faculty);
         studentRepository.save(student);
     }
+    @AfterEach
+    void tearDown() {
+        studentRepository.deleteAll();
+        facultyRepository.deleteAll();
+    }
+
 
     @Test
     void testCreateStudent() throws Exception {

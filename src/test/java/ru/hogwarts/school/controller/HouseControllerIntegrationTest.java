@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Testcontainers
 class HouseControllerIntegrationTest extends TestConfiguration {
     @Autowired
@@ -78,7 +79,11 @@ class HouseControllerIntegrationTest extends TestConfiguration {
         students.add(student2);
         faculty.setStudents(students);
     }
-
+    @AfterEach
+    void tearDown() {
+        studentRepository.deleteAll();
+        facultyRepository.deleteAll();
+    }
 
     @Test
     public void testCreateFaculty() throws Exception {

@@ -9,8 +9,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 public class TestConfiguration {
     @Container
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>
-            ("postgres:11")
-            .withUsername("student")
+            ("postgres")
+            .withUsername("postgres")
             .withPassword("test");
 
     @DynamicPropertySource
